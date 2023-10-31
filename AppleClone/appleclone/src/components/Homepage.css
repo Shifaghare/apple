@@ -1,0 +1,36 @@
+ #Apple-Screen{
+    
+    height: 5000px;
+    background-color:rgb(245,245,247);
+  
+}
+
+#navbar{
+  
+    height: 35px;
+    display: flex;
+    justify-content:space-around;
+    background-color: black;
+    color: azure;
+    font-family: SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.1428571429;
+    font-weight: 250;
+    letter-spacing: .007em;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding:1%;
+    
+    
+}
+
+ #navbar2{
+    height: 50px;
+    font-size: 15px;
+    background-color: white;
+
+    
+ }
+
+
