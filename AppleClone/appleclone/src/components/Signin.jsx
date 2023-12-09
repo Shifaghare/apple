@@ -1,9 +1,56 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import './Homepage.css'
-import {FaApple,FaSearch, FaShoppingBag} from 'react-icons/fa'
-const Signin = () => {
+import {FaApple,FaArrowRight,FaSearch, FaShoppingBag} from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { AuthContext } from './AuthContext'
+import api from './Axios.Config'
+
+
+   function Login() {
+    const [userData, setUserData] = useState({ email: "", password: "" });
+    const router = useNavigate();
+    const { Login, state } = useContext(AuthContext)
+    // console.log(userData,"userdata")
+
+    const handleChange = (event) => {
+        // console.log(event.target.value, "value", event.target.name, "name")
+        setUserData({ ...userData, [event.target.name]: event.target.value })
+    }
+
+    const sendDataToBackend = async (event) => {
+        event.preventDefault();
+        // alert("Data submitted to backend..")
+        if (userData.email && userData.password) {
+            if (userData.password.length >= 8) {
+                try {
+                    const response = await api.post("/auth/signin", { userData });
+                    // const response = { data: { success: true } };
+                    if (response.data.success) {
+                        localStorage.setItem("my-token", JSON.stringify(response.data.token))
+                        Login(response.data.user);
+                        // console.log(response.data, "response data")
+                        toast.success("Login successfully done....")
+                        setUserData({ email: "", password: "" })
+                        router("/")
+                    } else {
+                        throw new Error("Something went wrong..")
+                    }
+                } catch (error) {
+                    toast.error(error?.response.data.message)
+                    console.log(error, "error here")
+                }
+            } else {
+                alert("Password must be 8 digit.")
+            }
+        } else {
+            alert("Please fill the all values..")
+        }
+    }
+
   return (
     <div>
+      
       
     <div style={{height: '46px',
     display: 'flex',
@@ -39,10 +86,16 @@ const Signin = () => {
 <div style={{height:'200px',fontSize:'24px',fontWeight:'600',color:'rgb(73,73,73)'}}> 
 <b>Sign in to Apple Store </b><br/>
 
+
+
 <div>
-{/* <FaSearch style={{FaSearch,fontSize:'14px',marginTop:'8px'}} className= 'icon search'/> */}
-<input style={{width:'450px',marginTop:'40px',height:'50px',borderRadius:'10px',border:'1px solid black',fontSize:'17px'}} placeholder = 'Email or Phone Number'></input>
+<input style={{width:'450px',marginTop:'40px',height:'50px',borderRadius:'10px',border:'1px solid black',fontSize:'17px'}} name='email' type='email' onChange={handleChange} placeholder = 'Email or Phone Number'></input>
 </div>
+<div style={{ position: 'relative', display: 'inline-block' }}>
+<FaArrowRight onClick={sendDataToBackend} type='submit' style={{ position: 'absolute', left: '87%', top: '50%', transform: 'translateY(-50%)', color: '#555',cursor:'pointer' }} />
+<input style={{width:'450px',height:'50px',borderRadius:'10px',border:'1px solid black',fontSize:'17px'}} type='password' placeholder='Password' name='password' onChange={handleChange}></input>
+</div>
+
 </div>
 
 <div style={{height:'50px'}}>
@@ -65,11 +118,9 @@ const Signin = () => {
 <hr style={{width:'80%'}}/><br/>
 <span style={{fontSize:'13px',marginLeft:'-99px'}}> More ways to shop: Find an Apple Store or other retailer near you. Or call 1‑800‑MY‑APPLE.</span><br/>
 <span style={{fontSize:'13px',marginLeft:'-99px'}}>Copyright © 2023 Apple Inc. All rights reserved.</span>
-
 </div>
-
     </div>
   )
 }
 
-export default Signin
+export default Login

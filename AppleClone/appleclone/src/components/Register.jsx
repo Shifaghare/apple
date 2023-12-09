@@ -1,12 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Homepage.css'
 import {FaApple,FaSearch, FaShoppingBag} from 'react-icons/fa'
 import register1 from './register1.png'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast';
+import api from './Axios.Config'
 
 const Register = () => {
+
+
+
+  const [userData,setUserData]=useState({firstname:'',lastname:'',email:'',password:'',birthday:'',phoneNumber:''})
+  const router=useNavigate();
+
+  const handleChange=(event)=>{
+  setUserData({...userData,[event.target.name]:event.target.value})
+
+  }
+  const sendDataToBackend = async (event) => {
+    event.preventDefault();
+    // alert("Data submitted to backend..")
+    if (userData.firstname&& userData.lastname && userData.email && userData.password && userData.birthday && userData.phoneNumber ) {
+      if (userData.password.length >= 8) {
+        try {
+          const response = await api.post("/auth/register",{userData});
+          // const response = { data: { success: true } };
+          if (response.data.success) {
+            toast.success("Registeration successfull.")
+            setUserData({ firstname: "",lastname:'', email: "", password: "",birthday:'',phoneNumber:'' })
+            router("/signin")
+          } else {
+            throw new Error("Something went wrong..")
+          }
+        } catch (error) {
+          toast.error(error?.message)
+          console.log(error, "error here")
+        }
+      } else {
+        alert("Password must be 8 digit.")
+      }
+    } else {
+      alert("Please fill the all values..")
+    }
+  }
+
+
+
   return (
  
-<div style={{height:'2000px'}}>
+<div style={{height:'2000px'}}  >
+
         
        
 <div style={{height: '45px',
@@ -41,7 +84,7 @@ const Register = () => {
     <div style={{height:'60px'}}>
         <div style={{marginLeft:'-73%',fontSize:'25px',marginTop:'8px',fontWeight:'600'}}>Apple ID</div>
         <div style={{marginTop:'-25px',gap:'20px',marginRight:'-800px',fontSize:'13px'}}>
-        <span  style={{marginRight:'13px'}}>Sign in </span>
+        <span  style={{marginRight:'13px'}} >Sign in </span>
         <span style={{marginRight:'13px'}}> Create Your Apple ID</span>
         <span style={{}}> FAQ</span><br/>
        
@@ -56,9 +99,13 @@ const Register = () => {
     <div style={{height:'30px',fontSize:'17px',fontWeight:'400'}}>
     One Apple ID is all you need to access all Apple services.
     </div>
+
+
+
+    <form onSubmit={sendDataToBackend}>
     <div style={{height:'60px',fontSize:'17px',fontWeight:'400',}}>
- <input style={{marginRight:'20px',height:'45px',border:'1px solid black',borderRadius:'5px',fontSize:'17px',opacity:'0.5',width:'190px'}} placeholder='First Name'></input>
- <input style={{height:'45px',border:'1px solid black',borderRadius:'5px',width:'190px',fontSize:'17px',opacity:'0.5'}} placeholder='Last Name'></input>
+ <input style={{marginRight:'20px',height:'45px',border:'1px solid black',borderRadius:'5px',fontSize:'17px',opacity:'0.5',width:'190px'}} placeholder='First Name' type='text' name='firstname' onChange={handleChange}></input>
+ <input style={{height:'45px',border:'1px solid black',borderRadius:'5px',width:'190px',fontSize:'17px',opacity:'0.5'}} placeholder='Last Name' name='lastname' type='text' onChange={handleChange}></input>
     </div>
 
 <div style={{marginTop:'20px',marginLeft:'-270px',fontWeight:'600'}}>
@@ -77,19 +124,17 @@ COUNTRY / REGION
   </select>
 
   <div>
-    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.5',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}}placeholder='Birthday'></input>
+    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.5',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}}placeholder='Birthday(DD/MM/YYYY)' name='birthday' onChange={handleChange}></input>
   </div>
    <hr style={{width:'60%',opacity:'0.5'}}/>
    <div>
-    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.7',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}}placeholder='name@example.com'></input>
+    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.7',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}}placeholder='name@example.com' type='email' name='email' onChange={handleChange}></input>
   </div>
   <div style={{marginLeft:'-240px',color:'grey',fontSize:'14px'}}>This will be your new apple id</div>
   <div>
-    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.5',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}} type='password' placeholder='Password'></input>
+    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.5',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}}type='password' placeholder='Password' name='password' onChange={handleChange}></input>
   </div>
-  <div>
-    <input style={{width:'415px',height:'45px',border:'1px solid black',opacity:'0.5',borderRadius:'5px',marginTop:'10px',fontSize:'17px'}} type='password' placeholder='Confirm Password'></input>
-  </div>
+
 
   <hr style={{width:'60%',opacity:'0.5'}}/>
 
@@ -106,7 +151,7 @@ COUNTRY / REGION
 <br/>
 
 
-  <input style={{height:'45px',border:'1px solid black',borderRadius:'5px',fontSize:'17px',opacity:'0.5',width:'420px'}} placeholder='Phone Number'></input>
+  <input style={{height:'45px',border:'1px solid black',borderRadius:'5px',fontSize:'17px',opacity:'0.5',width:'420px'}} placeholder='Phone Number' name='phoneNumber' onChange={handleChange}></input>
 
  <div style={{fontSize:'15px'}}>
  Be sure to enter a phone number you can always access. It will<br/> be used to verify your identity any time you sign in on a new <br/> device or web browser. Messaging or data rates may apply.
@@ -144,24 +189,13 @@ COUNTRY / REGION
  <span style={{marginLeft:'49px',fontSize:'14px'}}>content, special offers, and marketing and recommendations for apps, music,<br/> </span>
  <span style={{marginLeft:'-43px',fontSize:'14px'}}>movies, TV, books, podcasts, Apple Pay, Apple Card and more.</span>
 </div>
-
 <hr style={{width:'60%',opacity:'0.5'}}/>
-
-
 <img style={{width:'60%'}} src={register1} alt=''/><br/>
-<button style={{backgroundColor:'rgb(40,142,223)',border:'none',borderRadius:'6px',height:'40px',width:'99px',color:'white',fontSize:'17px' }}> Continue</button>
+<button style={{backgroundColor:'rgb(40,142,223)',border:'none',borderRadius:'6px',height:'40px',width:'99px',color:'white',fontSize:'17px' }}  type='submit'> 
+Continue
+</button>
 
-
-
-
-
-
-
-
-
-
-
-
+</form>
 
     </div>
   )

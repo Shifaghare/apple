@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Homepage.css'
 import {FaApple,FaSearch, FaShoppingBag} from 'react-icons/fa'
 import hp1 from './hp1.png'
@@ -7,9 +7,17 @@ import hp3 from './hp3.png'
 import hp4 from './hp4.png'
 import hp5 from './hp5.png'
 import image4 from './image4.png'
+import { AuthContext } from './AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 
 const Homepage = () => {
+  const { state, Logout } = useContext(AuthContext);
+
+  const router=useNavigate()
+  function routerToLogin() {
+    router("/login")
+}
     return (
       <div id='Apple-Screen'>
         

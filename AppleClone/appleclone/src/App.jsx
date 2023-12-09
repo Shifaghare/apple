@@ -13,6 +13,7 @@ import Apple15 from './components/Apple15';
 import Trial from './components/Trial';
 import BuyIphone from './components/BuyIphone';
 import Abc from './components/Abc';
+import Login from './components/Signin';
 
 
 
@@ -25,7 +26,7 @@ function App() {
       <Route exact path='/' element={<Homepage/>}/>
       <Route exact path='/store' element={<Store/>}/>
       <Route exact path='/iphone15pro' element={<Iphone15pro/>}/>
-      <Route exact path='/signin' element={<Signin/>}/>
+      <Route exact path='/signin' element={<Login/>}/>
       <Route exact path='/register' element={<Register/>}/>
       <Route exact path='/cart' element={<Cart/>}/>
       <Route exact path='/xyz' element={<Xyz/>}/>
