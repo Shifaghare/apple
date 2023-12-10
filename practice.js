@@ -150,18 +150,83 @@
 
 
 
-var s="A man, a plan, a canal: Panama"
-var newstr =s.replace(/[^a-z0-9]/gi,"").toLowerCase()
-var palindrome=function(s,newstr){
-    return newstr===newstr.split('').reverse().join('')?true :false
+// var s="A man, a plan, a canal: Panama"
+// var newstr =s.replace(/[^a-z0-9]/gi,"").toLowerCase()
+// var palindrome=function(s,newstr){
+//     return newstr===newstr.split('').reverse().join('')?true :false
  
-}
+// }
 
-console.log(palindrome(s,newstr))
-
-
+// console.log(palindrome(s,newstr))
 
 
 
 
 
+// var num = 3;
+
+// function SimpleAdding(num) {
+//   // Initialize a variable to store the sum
+//   var sum = 0;
+
+//   // Loop through numbers from 1 to num and add them to the sum
+//   for (var i = 1; i <= num; i++) {
+//     sum += i;
+//   }
+
+//   // Output: 15 (assuming num is 5)
+
+//   // Return the final sum
+//   return sum;
+// }
+
+// // Call the function and log the result
+// var result = SimpleAdding(num);
+// console.log(result);
+// function printAsteriskPattern(size) {
+//     for (var i = 0; i <= size; i++) {
+//       var row = '*';
+//       for (var j = 0; j > size; j++) {
+//         row += '*';
+//       }
+//       console.log(row);
+//     }
+//   }
+  
+//   // Example: Print a 5x5 asterisk square
+//   printAsteriskPattern(3);
+
+//   function printStarPattern(rows) {
+//     for (var i = 0; i < rows; i++) {
+//       var row = '';
+//       for (var j = 0; j <= i; j++) {
+//         row += '* ';
+//       }
+//       console.log(row);
+//     }
+//   }
+  
+//   // Example: Print a right-angled triangle with 5 rows
+//   printStarPattern(5);
+
+
+
+//   function printStarS(rows) {
+//     const midRow = Math.floor(rows / 2);
+  
+//     for (let i = 0; i < rows; i++) {
+//       let row = '';
+//       for (let j = 0; j < rows; j++) {
+//         if (i === 0 || i === rows - 1 || (i < midRow && j === 0) || (i === midRow && j <= midRow) || (i > midRow && j === rows - 1)) {
+//           row += '*';
+//         } else {
+//           row += ' ';
+//         }
+//       }
+//       console.log(row);
+//     }
+//   }
+  
+//   // Example: Print 'S' pattern with 5 rows
+//   printStarS(5);
+  

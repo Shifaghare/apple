@@ -8,9 +8,7 @@ import api from './Axios.Config'
 
 const Register = () => {
 
-
-
-  const [userData,setUserData]=useState({firstname:'',lastname:'',email:'',password:'',birthday:'',phoneNumber:''})
+  const [userData,setUserData]=useState({firstname:'',lastname:'',email:'',password:'',birthday:'',phoneNumber:Number})
   const router=useNavigate();
 
   const handleChange=(event)=>{
@@ -27,7 +25,7 @@ const Register = () => {
           // const response = { data: { success: true } };
           if (response.data.success) {
             toast.success("Registeration successfull.")
-            setUserData({ firstname: "",lastname:'', email: "", password: "",birthday:'',phoneNumber:'' })
+            setUserData({ firstname: "",lastname:'', email: "", password: "",birthday:'',phoneNumber:Number })
             router("/signin")
           } else {
             throw new Error("Something went wrong..")
